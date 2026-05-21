@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alexis & Déborah</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================
+       VARIABLES & RESET
+    ============================ */
+    :root {
+      --rose:       #F2A7BB;
+      --rose-deep:  #E07898;
+      --peach:      #FAD4BB;
+      --gold:       #D4A96A;
+      --green:      #A8C5A0;
+      --green-deep: #6E9E65;
+      --cream:      #FDF6F0;
+      --text:       #3D2B2B;
+      --text-light: #7A5C5C;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      font-family: 'Lato', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ============================
+       ANIMATED BACKGROUND
+    ============================ */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 15% 20%, #FAD4BB55 0%, transparent 70%),
+        radial-gradient(ellipse 50% 60% at 85% 80%, #F2A7BB55 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 70% 10%, #A8C5A033 0%, transparent 70%);
+      animation: bgShift 12s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes bgShift {
+      0%   { opacity: 1; transform: scale(1); }
+      100% { opacity: .8; transform: scale(1.05); }
+    }
+
+    /* ============================
+       FLOATING PETALS
+    ============================ */
+    .petals { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+
+    .petal {
+      position: absolute;
+      top: -60px;
+      width: 14px; height: 20px;
+      border-radius: 50% 0 50% 0;
+      opacity: .55;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0%   { transform: translateY(0)   rotate(0deg)   translateX(0); }
+      50%  { transform: translateY(50vh) rotate(180deg) translateX(30px); }
+      100% { transform: translateY(110vh) rotate(360deg) translateX(-20px); opacity: 0; }
+    }
+
+    /* ============================
+       PAGE LAYOUT
+    ============================ */
+    .page {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
+      text-align: center;
+    }
+
+    /* ============================
+       DECORATIVE RING
+    ============================ */
+    .ring {
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      border: 2px solid var(--rose);
+      box-shadow: 0 0 0 8px #FAD4BB33, 0 0 0 16px #F2A7BB18;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2.5rem;
+      animation: pulse 4s ease-in-out infinite;
+      position: relative;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 8px #FAD4BB33, 0 0 0 16px #F2A7BB18; }
+      50%       { box-shadow: 0 0 0 14px #FAD4BB44, 0 0 0 28px #F2A7BB22; }
+    }
+
+    .ring .heart {
+      font-size: 4.5rem;
+      animation: heartbeat 1.8s ease-in-out infinite;
+      user-select: none;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      15%       { transform: scale(1.18); }
+      30%       { transform: scale(1); }
+      45%       { transform: scale(1.1); }
+      60%       { transform: scale(1); }
+    }
+
+    /* ============================
+       TITLE
+    ============================ */
+    .names {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 9vw, 5.5rem);
+      font-weight: 700;
+      letter-spacing: .02em;
+      line-height: 1.1;
+      background: linear-gradient(135deg, var(--rose-deep) 0%, var(--gold) 50%, var(--green-deep) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: .6rem;
+      opacity: 0;
+      animation: fadeUp .9s .2s forwards;
+    }
+
+    .subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      color: var(--text-light);
+      letter-spacing: .12em;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp .9s .5s forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================
+       DIVIDER
+    ============================ */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp .9s .7s forwards;
+    }
+
+    .divider span { display: block; height: 1px; width: 80px; background: linear-gradient(to right, transparent, var(--rose-deep)); }
+    .divider span:last-child { background: linear-gradient(to left, transparent, var(--rose-deep)); }
+    .divider em { font-size: 1.2rem; user-select: none; }
+
+    /* ============================
+       BUTTONS CONTAINER
+    ============================ */
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeUp .9s .9s forwards;
+    }
+
+    /* ============================
+       BUTTON BASE
+    ============================ */
+    .btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: .65rem;
+      padding: .9rem 2.2rem;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Lato', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,.18);
+      opacity: 0;
+      transition: opacity .25s;
+    }
+
+    .btn:hover { transform: translateY(-3px) scale(1.03); }
+    .btn:hover::after { opacity: 1; }
+    .btn:active { transform: translateY(0) scale(.98); }
+
+    /* Cagnotte — rose-gold */
+    .btn-cagnotte {
+      background: linear-gradient(135deg, var(--rose-deep), var(--gold));
+      color: #fff;
+      box-shadow: 0 6px 24px #E0789844;
+    }
+    .btn-cagnotte:hover { box-shadow: 0 10px 32px #E0789866; }
+
+    /* Liste de naissance — vert sauge */
+    .btn-liste {
+      background: linear-gradient(135deg, var(--green), var(--green-deep));
+      color: #fff;
+      box-shadow: 0 6px 24px #6E9E6540;
+    }
+    .btn-liste:hover { box-shadow: 0 10px 32px #6E9E6562; }
+
+    /* ============================
+     * AJOUTER UN BOUTON ICI
+     * 
+     * Copiez l'un des blocs ci-dessous et ajoutez-le dans la section
+     * <div class="buttons"> du HTML.
+     *
+     * Exemple — bouton "Trouver la salle" :
+     *
+     *   <a href="#" class="btn btn-custom">
+     *     🗺️ Trouver la salle
+     *   </a>
+     *
+     * Puis ajoutez le style dans le CSS (ou réutilisez btn-cagnotte / btn-liste) :
+     *
+     *   .btn-custom {
+     *     background: linear-gradient(135deg, #B5C9E8, #7A9EC8);
+     *     color: #fff;
+     *     box-shadow: 0 6px 24px #7A9EC840;
+     *   }
+     *   .btn-custom:hover { box-shadow: 0 10px 32px #7A9EC862; }
+     ============================ */
+
+    /* ============================
+       FOOTER
+    ============================ */
+    .footer {
+      margin-top: 4rem;
+      font-size: .8rem;
+      color: var(--text-light);
+      letter-spacing: .1em;
+      opacity: 0;
+      animation: fadeUp .9s 1.2s forwards;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pétales flottantes -->
+  <div class="petals" id="petals"></div>
+
+  <div class="page">
+
+    <!-- Anneau décoratif -->
+    <div class="ring">
+      <span class="heart">💗</span>
+    </div>
+
+    <!-- Titre principal -->
+    <h1 class="names">Alexis &amp; Déborah</h1>
+    <p class="subtitle">Avec amour, partagez notre bonheur</p>
+
+    <!-- Séparateur -->
+    <div class="divider">
+      <span></span>
+      <em>🌸</em>
+      <span></span>
+    </div>
+
+    <!-- ======================================================
+         BOUTONS PRINCIPAUX
+         Pour ajouter un bouton, dupliquez l'un des <a> ci-dessous
+         et modifiez href, l'icône et le texte.
+         Créez aussi une classe CSS correspondante (voir le commentaire
+         dans le CSS plus haut).
+    ====================================================== -->
+    <div class="buttons">
+
+      <!-- Bouton Cagnotte -->
+      <a href="#" class="btn btn-cagnotte">
+        🎁 Notre cagnotte
+      </a>
+
+      <!-- Bouton Liste de naissance -->
+      <a href="#" class="btn btn-liste">
+        🌿 Liste de naissance
+      </a>
+
+      <!-- ------------------------------------------------
+           AJOUTEZ VOS BOUTONS SUPPLÉMENTAIRES ICI
+           Exemple :
+           <a href="https://..." class="btn btn-custom">
+             🗺️ Accès & plan
+           </a>
+      ------------------------------------------------ -->
+
+    </div>
+
+    <p class="footer">Merci d'être là pour nous ✨</p>
+
+  </div>
+
+  <!-- Génération des pétales -->
+  <script>
+    const colors = ['#F2A7BB','#FAD4BB','#A8C5A0','#D4A96A','#E07898','#6E9E65'];
+    const container = document.getElementById('petals');
+    const count = 22;
+
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      p.style.left         = Math.random() * 100 + 'vw';
+      p.style.animationDuration = (6 + Math.random() * 10) + 's';
+      p.style.animationDelay   = (Math.random() * 12) + 's';
+      p.style.background       = colors[Math.floor(Math.random() * colors.length)];
+      p.style.width  = (8 + Math.random() * 12) + 'px';
+      p.style.height = (12 + Math.random() * 16) + 'px';
+      p.style.transform = `rotate(${Math.random()*360}deg)`;
+      container.appendChild(p);
+    }
+  </script>
+
+</body>
+</html>
